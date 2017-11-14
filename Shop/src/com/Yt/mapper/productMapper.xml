@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Yt.mapper.productMapper">
+	<resultMap type="com.Yt.pojo.product" id="yt">
+		<id property="id" column="id" />
+		<result property="productname" column="productname" />
+		<result property="descs" column="descs" />
+		<collection property="cata" ofType="com.Yt.pojo.catagory">
+			<id property="id" column="id" />
+			<result property="name" column="name" />
+			<result property="explain" column="explain" />
+		</collection>
+	</resultMap>
+	<select id="getAll" resultMap="yt">
+		select
+		p.id,p.productname,p.descs,c.`name`,c.`explain`
+		from product p
+		join catagory c
+		on p.cid = c.id
+		order by p.id
+		limit #{b},#{s}
+	</select>
+	<select id="count" resultType="int">
+		select count(*)
+		from product p
+		join catagory c
+		on p.cid = c.id
+	</select>
+	<delete id="delInfo" parameterType="int">
+		delete from product
+		where id = #{id}
+	</delete>
+	<insert id="addInfo" parameterType="com.Yt.pojo.product">
+		insert `product`(productname,descs,cid)
+		values (#{productname},#{descs},#{cid})
+	</insert>
+</mapper>
