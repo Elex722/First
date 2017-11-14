@@ -45,7 +45,7 @@ public class faqsController {
 	public String delInfo(HttpServletRequest request,HttpServletResponse response){
 		int id = Integer.valueOf(request.getParameter("id"));
 		if (fs.delInfo(id)>0) {
-			System.out.println("删除成功");
+			System.out.println("删除成功123");
 			return "getPage";
 		}else {
 			System.out.println("删除失败");
