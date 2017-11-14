@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.Yt.mapper.faqsMapper">
+	<resultMap type="com.Yt.pojo.faqs" id="yt">
+		<id property="id" column="id" />
+		<result property="title" column="title"/>
+		<result property="createdate" column="createdate"/>
+		<result property="classid" column="classid"/>
+		<collection property="c" ofType="com.Yt.pojo.classes">
+		<id property="id" column="id" />
+		<result property="cname" column="cname"/>
+		</collection>
+	</resultMap>
+	<select id="getPage" resultMap="yt">
+		select
+		f.id,f.title,c.cname,f.createdate
+		from faqs f
+		join classes c
+		on f.classid
+		= c.id
+		order by f.id
+		limit #{b},#{s}
+	</select>
+	<select id="count" resultType="int">
+		select count(*)
+		from faqs
+	</select>
+	<delete id="delInfo" parameterType="int">
+		delete from faqs
+		where id =
+		#{id}
+	</delete>
+	<select id="getCname" resultType="com.Yt.pojo.classes">
+		select *
+		from classes
+	</select>
+	<insert id="addInfo" parameterType="com.Yt.pojo.faqs">
+		insert
+		faqs(title,createdate,content,classid)
+		values
+		(#{title},now(),#{content},#{classid})
+	</insert>
+</mapper>
